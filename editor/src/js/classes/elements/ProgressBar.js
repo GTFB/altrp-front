@@ -47,11 +47,6 @@ class ProgressBar extends BaseElement {
       label: "Value"
     });
 
-    this.addControl("max_value", {
-      type: CONTROLLER_TEXT,
-      label: "Max value (optional)"
-    });
-
     this.addControl("stripes", {
       type: CONTROLLER_SWITCHER,
       label: "Stripes",
@@ -77,11 +72,6 @@ class ProgressBar extends BaseElement {
     this.addControl("width", {
       type: CONTROLLER_TEXT,
       label: "Width"
-    });
-
-    this.addControl("height", {
-      type: CONTROLLER_TEXT,
-      label: "Height"
     });
 
     this.addControl('alignment', {
@@ -111,11 +101,6 @@ class ProgressBar extends BaseElement {
     this.addControl('stripes_color', {
       type: CONTROLLER_COLOR,
       label: 'Stripes color',
-    });
-
-    this.addControl('background_color', {
-      type: CONTROLLER_COLOR,
-      label: 'Background color',
     });
 
     this.endControlSection();

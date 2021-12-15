@@ -422,17 +422,6 @@ textarea.altrp-field {
 .altrp-field-select2 .altrp-field-select2__control {
   min-height: 14px;
 }
-
-.altrp-select-tree-left-icon {
-  margin-right: auto;
-}
-
-.altrp-select-tree-btn {
-}
-
-.altrp-select-tree div.bp3-tree-node-content {
-  border: none
-}
 `)
 
 const AltrpFieldContainer = styled.div`
@@ -809,9 +798,8 @@ class InputSelectTreeWidget extends Component {
     if (optionsDynamicSetting) {
       options = convertData(optionsDynamicSetting, options);
     }
-
     if(this.state.searchValue){
-      options = matchSorter(this.getOptionsWithoutNesting(options), this.state.searchValue, {
+      options = matchSorter(options, this.state.searchValue, {
         keys: [o => {
           return o.label
         }]
@@ -834,65 +822,6 @@ class InputSelectTreeWidget extends Component {
       o.hasCaret = ! ! o?.childNodes?.length
       return o;
     })
-
-
-    const typeSort = this.props.element.getResponsiveSetting("options_sorting", "", "none")
-
-    if(typeSort !== "none") {
-      options = this.sortOptions( options, typeSort)
-    }
-    return options
-  }
-
-  getOptionsWithoutNesting(options, depth=0) {
-    if(depth === 0) {
-      let opt = _.cloneDeep(options);
-
-      opt.forEach(i => {
-        if(i.childNodes.length > 0) {
-          opt = [...opt, ...i.childNodes, ...this.getOptionsWithoutNesting(i.childNodes, 1)]
-        }
-      })
-
-      opt = opt.map(({childNodes, ...i}) => {
-        return {
-          childNodes: [],
-          ...i
-        }
-      })
-
-      return opt
-    } else {
-      let opt = [];
-
-      options.forEach(i => {
-        if(i.childNodes.length > 0) {
-          opt = [...opt, ...i.childNodes, ...this.getOptionsWithoutNesting(i.childNodes, depth+1)]
-        }
-      })
-
-      return opt
-    }
-  }
-
-  sortOptions(options, type) {
-    options = options.sort((a, b) => {
-      const aLabel = a.label.toUpperCase();
-      const bLabel = b.label.toUpperCase();
-
-      if(aLabel < bLabel) return -1;
-      if(aLabel > bLabel) return 1;
-
-      return 0
-    })
-
-    for(let i = 0; i < options.length; i++) {
-      if(options[i].childNodes.length > 1) {
-        options[i].childNodes = this.sortOptions(options[i].childNodes, type);
-      }
-    }
-
-    if(type === "desc") options.reverse()
 
     return options
   }
@@ -988,7 +917,7 @@ class InputSelectTreeWidget extends Component {
     if(_.isEmpty(left_icon)){
       return null
     }
-    return <span className="bp3-icon altrp-select-tree-left-icon bp3-icon_text-widget bp3-icon_left" >
+    return <span className="bp3-icon bp3-icon_text-widget bp3-icon_left" >
       {renderAsset(left_icon)}
     </span>
   }
@@ -1217,11 +1146,7 @@ class InputSelectTreeWidget extends Component {
                   onNodeCollapse={this.handleNodeToggle}
                   onNodeExpand={this.handleNodeToggle}
                 />
-              ) : this.state.searchValue ? (
-                <p align="center">{
-                  no_results_text
-                }</p>
-              ) : ""
+              ) : ''
             }
           </div>
         }

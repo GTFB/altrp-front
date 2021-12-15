@@ -36,14 +36,16 @@ const PointChart = ({
   customColors = [],
   constantsAxises = [],
   yScaleMax,
-  widgetID,
   useCustomTooltips,
-  margin
+  margin,
+  legend,
 }) => {
+  if (legend) {
+    Object.keys(legend).forEach(key => legend[key] === undefined && delete legend[key])
+  }
+
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const size = 4;
-  const fill = customStyle[0];
   const getData = useCallback(async () => {
     setIsLoading(true);
     if (dataSource.length == 0) {
@@ -118,6 +120,27 @@ const PointChart = ({
   isNotEmpty = matches.includes(true);
   if (!isNotEmpty) return <EmptyWidget />;
 
+  const customProps = {}
+
+  if (legend) {
+    customProps.legends = [
+      {
+        anchor: 'top-right',
+        direction: 'column',
+        translateX: 0,
+        translateY: 0,
+        itemsSpacing: 2,
+        itemWidth: 60,
+        itemHeight: 14,
+        itemDirection: "left-to-right",
+        itemOpacity: 1,
+        symbolSize: 14,
+        symbolShape: "circle",
+        ...legend
+      }
+    ]
+  }
+
   return (
     <>
       <div
@@ -163,13 +186,11 @@ const PointChart = ({
               ? { type: xScaleType, format: format, precision: precision }
               : { type: xScaleType }
           }
-          tooltip={datum => (
-            <Tooltip
-              datum={datum}
-              enable={useCustomTooltips}
-              widgetID={widgetID}
-            />
-          )}
+          // tooltip={datum => (
+          //   <Tooltip
+          //     datum={datum}
+          //   />
+          // )}
           enableGridX={enableGridX}
           enableGridY={enableGridY}
           axisBottom={
@@ -194,32 +215,6 @@ const PointChart = ({
               ? milkScheme2
               : { scheme: colorScheme }
           }
-          // legends={[
-          //   {
-          //     anchor: "bottom-right",
-          //     direction: "column",
-          //     justify: false,
-          //     translateX: 130,
-          //     translateY: 0,
-          //     itemsSpacing: 0,
-          //     itemDirection: "left-to-right",
-          //     itemWidth: 120,
-          //     itemHeight: 20,
-          //     itemOpacity: 0.75,
-          //     symbolSize: 12,
-          //     symbolShape: "circle",
-          //     symbolBorderColor: "rgba(0, 0, 0, .5)",
-          //     effects: [
-          //       {
-          //         on: "hover",
-          //         style: {
-          //           itemBackground: "rgba(0, 0, 0, .03)",
-          //           itemOpacity: 1
-          //         }
-          //       }
-          //     ]
-          //   }
-          // ]}
         />
       </div>
     </>

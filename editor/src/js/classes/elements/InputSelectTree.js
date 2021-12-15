@@ -114,9 +114,6 @@ class InputSelectTree extends BaseElement {
       type: CONTROLLER_TEXT,
       label: "Search Placeholder",
       responsive: false,
-      conditions:{
-        s_off: true,
-      },
     });
 
     this.addControl("minimal", {
@@ -150,6 +147,31 @@ class InputSelectTree extends BaseElement {
       conditions:{
         content_options_nullable: true,
       },
+    });
+
+    this.addControl("options_sorting", {
+      type: CONTROLLER_SELECT,
+      label: "Options Sorting",
+      responsive: false,
+      options: [
+        {
+          value: "",
+          label: "None"
+        },
+        {
+          value: "asc",
+          label: "ASC"
+        },
+        {
+          value: "desc",
+          label: "DESC"
+        }
+      ]
+    });
+
+    this.addControl("sort_default", {
+      type: CONTROLLER_SWITCHER,
+      label: "Sort Default"
     });
 
     this.addControl("params_for_update", {
@@ -199,7 +221,7 @@ class InputSelectTree extends BaseElement {
       options: [
         {
           icon: 'left',
-          value: 'left',
+          value: 'flex-start',
         },
         {
           icon: 'center',
@@ -207,18 +229,13 @@ class InputSelectTree extends BaseElement {
         },
         {
           icon: 'right',
-          value: 'right',
+          value: 'flex-end',
         },
         {
           icon: 'in_width',
           value: 'stretch',
         }
       ],
-    });
-
-    this.addControl('button_width', {
-      label: 'Width',
-      type: CONTROLLER_TEXT,
     });
 
     this.addControl('right_icon', {
@@ -234,7 +251,7 @@ class InputSelectTree extends BaseElement {
     this.endControlSection();
 
     this.startControlSection('search', {
-      label: 'Search and Filter',
+      label: 'Search',
     })
 
     this.addControl('s_off', {
@@ -246,26 +263,6 @@ class InputSelectTree extends BaseElement {
       type: CONTROLLER_TEXT,
       label: "No results text",
       responsive: false,
-    });
-
-    this.addControl("options_sorting", {
-      type: CONTROLLER_SELECT,
-      label: "Options Sorting",
-      responsive: false,
-      options: [
-        {
-          value: "",
-          label: "None"
-        },
-        {
-          value: "asc",
-          label: "ASC"
-        },
-        {
-          value: "desc",
-          label: "DESC"
-        }
-      ]
     });
 
     this.endControlSection();
@@ -411,6 +408,14 @@ class InputSelectTree extends BaseElement {
     this.startControlSection("position_section", {
       tab: TAB_STYLE,
       label: "Button Position"
+    });
+
+    this.addControl("field_width", {
+      type: CONTROLLER_SLIDER,
+      label: "Width",
+      max: 500,
+      min: 0,
+      units: ["px", "%", "vw"]
     });
 
     this.addControl("position_margin", {

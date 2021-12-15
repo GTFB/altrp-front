@@ -40,23 +40,17 @@ const DynamicPieChart = ({
   height = "450px",
   dataSource = [],
   colorScheme = "red_grey",
-  enableSliceLabels = false,
   innerRadius = 0,
   padAngle = 0,
   cornerRadius = 0,
   sortByValue = 0,
-  enableRadialLabels = true,
   sort = "",
-  tickRotation = 0,
-  bottomAxis = true,
   keyIsDate = false,
   customColorSchemeChecker = false,
   customColors = [],
-  widgetID,
   useCustomTooltips,
+  valueFormat,
   margin,
-  title,
-  subTitle,
   legend,
   activeOuterRadiusOffset,
   activeInnerRadiusOffset,
@@ -67,6 +61,8 @@ const DynamicPieChart = ({
   if (legend) {
     Object.keys(legend).forEach(key => legend[key] === undefined && delete legend[key])
   }
+
+  console.log({valueFormat});
 
   let allValue = 0;
 
@@ -122,20 +118,16 @@ const DynamicPieChart = ({
     getData();
   }, [getData]);
 
-  const clickHandler = async () => {
-
-  }
-
   const layers = ['arcs', 'arcLabels', 'arcLinkLabels', 'legends']
 
   if (useCenteredMetric) {
     layers.push(CenteredMetric)
   }
 
-  const customProperties = {}
+  const customProps = {}
 
-  if (!useLinkArcLabels) {
-    customProperties.arcLinkLabelComponent = () => <text />
+  if (useLinkArcLabels === false) {
+    customProps.arcLinkLabelComponent = () => <text />
   }
 
   if (isLoading) return <Spinner />;
@@ -144,9 +136,7 @@ const DynamicPieChart = ({
 
   return (
     <>
-      {title && <h3 className='diagram-title' style={{margin: 0}}>{title}</h3>}
-      {subTitle && <h5 className='diagram-subtitle' style={{margin: 0}}>{subTitle}</h5>}
-      <div className='diagram' style={{ height: height, width: width }}>
+      <div className='diagram' style={{ height, width }}>
         <ResponsivePie
           data={data}
           colors={
@@ -160,23 +150,9 @@ const DynamicPieChart = ({
               ? milkScheme2
               : { scheme: colorScheme }
           }
-          tooltip={datum => (
-            <TooltipPie
-              enable={useCustomTooltips}
-              datum={datum}
-              data={data}
-              widgetID={widgetID}
-            ></TooltipPie>
-          )}
           cornerRadius={cornerRadius}
           sortByValue={sortByValue}
-          axisBottom={
-            bottomAxis && {
-              tickRotation: tickRotation
-            }
-          }
           margin={margin}
-          enableRadialLabels={enableRadialLabels}
           legends={legend && [
             {
               anchor: 'top-right',
@@ -194,14 +170,18 @@ const DynamicPieChart = ({
             }
           ]}
           innerRadius={innerRadius}
-          enableSliceLabels={enableSliceLabels}
           padAngle={padAngle}
           animate={true}
           activeOuterRadiusOffset={activeOuterRadiusOffset}
           activeInnerRadiusOffset={activeInnerRadiusOffset}
           layers={layers}
+          // tooltip={datum => (
+          //   <TooltipPie
+          //     datum={datum}
+          //     data={data}
+          //   ></TooltipPie>
+          // )}
           arcLabelsComponent={({ datum, label, style }) => {
-            console.log({datum});
             return <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
                 <text
                     textAnchor="middle"
@@ -212,7 +192,8 @@ const DynamicPieChart = ({
                 </text>
             </animated.g>
           }}
-          {...customProperties}
+          valueFormat={valueFormat}
+          {...customProps}
         />
       </div>
     </>

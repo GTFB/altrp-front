@@ -22,18 +22,9 @@ class ProgressBarWidget extends Component {
 
   render() {
     let value = this.props.element.getContent("value") || "100";
-    let maxValue = this.props.element.getContent("max_value");
 
     if(!isNaN(value)) {
       value = parseInt(value) * 0.01;
-
-      if(maxValue && !isNaN(maxValue)) {
-        maxValue = parseInt(maxValue) * 0.01;
-
-        if(value > maxValue) {
-          value = maxValue
-        }
-      }
     }
 
     const settings = {

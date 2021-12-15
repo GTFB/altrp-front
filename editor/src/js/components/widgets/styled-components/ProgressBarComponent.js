@@ -10,22 +10,11 @@ export default function ProgressBarComponent(settings) {
     "}",
 
     "bp3-progress-bar",
-      ["background-color", "background_color", "color"],
-
       () => {
         const value = getResponsiveSetting(settings, "width");
 
         if(value) {
           return `width: ${value};`
-        } else {
-          return ""
-        }
-      },
-      () => {
-        const value = getResponsiveSetting(settings, "height");
-
-        if(value) {
-          return `height: ${value};`
         } else {
           return ""
         }

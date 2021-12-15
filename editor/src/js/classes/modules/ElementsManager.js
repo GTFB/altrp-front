@@ -115,6 +115,10 @@ import LineDiagram from "../elements/diagrams/LineDiagram";
 import LineDiagramWidget from "../../components/widgets/diagrams/LineDiagramWidget";
 import PointDiagram from "../elements/diagrams/PointDiagram";
 import PointDiagramWidget from "../../components/widgets/diagrams/PointDiagramWidget";
+import FunnelDiagram from "../elements/diagrams/FunnelDiagram";
+import FunnelDiagramWidget from "../../components/widgets/diagrams/FunnelDiagramWidget";
+import RadarDiagram from "../elements/diagrams/RadarDiagram";
+import RadarDiagramWidget from "../../components/widgets/diagrams/RadarDiagramWidget";
 import Stars from "../elements/Stars";
 import StarsWidget from "../../components/widgets/StarsWidget";
 import ProgressBar from "../elements/ProgressBar";
@@ -123,6 +127,19 @@ import ProgressBarWidget from "../../components/widgets/ProgressBarWidget";
 export default class ElementsManger {
   constructor() {
     this.elements = {};
+    this.components = {};
+
+    // Так удобнее добавлять виджеты в формате [елемент, компонент]
+    const widgetsList = [
+      [PieDiagram, PieDiagramWidget],
+      [BarDiagram, BarDiagramWidget],
+      [LineDiagram, LineDiagramWidget],
+      [PointDiagram, PointDiagramWidget],
+      [FunnelDiagram, FunnelDiagramWidget],
+      [RadarDiagram, RadarDiagramWidget]
+    ]
+
+
     // this.elements[Input.getName()] = Input;
     //список элементов
     this.elements[RootElement.getName()] = RootElement;
@@ -169,7 +186,6 @@ export default class ElementsManger {
     this.elements[BarDiagram.getName()] = BarDiagram;
     this.elements[LineDiagram.getName()] = LineDiagram;
     this.elements[PointDiagram.getName()] = PointDiagram;
-
     this.elements[Dashboards.getName()] = Dashboards;
     this.elements[Carousel.getName()] = Carousel;
     this.elements[Tour.getName()] = Tour;
@@ -188,10 +204,13 @@ export default class ElementsManger {
     this.elements[Stars.getName()] = Stars;
     this.elements[ProgressBar.getName()] = ProgressBar;
 
+    widgetsList.forEach(([elem, comp]) => {
+      this.elements[elem.getName()] = elem
+      this.components[elem.getName()] = comp
+    })
     // Websocket Notifications
     // this.elements[Notifications.getName()] = Notifications;
     //список компонентов
-    this.components = {};
     this.components[RootElement.getName()] = RootComponent;
     this.components[HeadingTypeHeading.getName()] = HeadingTypeHeadingWidget;
     this.components[HeadingTypeAnimating.getName()] = HeadingTypeAnimatingWidget;
@@ -231,11 +250,6 @@ export default class ElementsManger {
     this.components[Map.getName()] = MapWidget;
     this.components[MapConstructor.getName()] = MapConstructorWidget;
     this.components[Menu.getName()] = MenuWidget;
-
-    this.components[PieDiagram.getName()] = PieDiagramWidget;
-    this.components[BarDiagram.getName()] = BarDiagramWidget;
-    this.components[LineDiagram.getName()] = LineDiagramWidget;
-    this.components[PointDiagram.getName()] = PointDiagramWidget;
 
     this.components[Dashboards.getName()] = DashboardsWidget;
     this.components[Tour.getName()] = TourGuide;

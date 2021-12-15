@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ResponsiveLine } from "@nivo/line";
+import { Defs, linearGradientDef } from '@nivo/core'
 Tooltip;
 import Spinner from "./Spinner";
 import EmptyWidget from "./EmptyWidget";
@@ -17,8 +18,8 @@ const format = "%d.%m.%Y";
 
 const DynamicLineChart = ({
   widget,
-  width = `300px`,
-  height = `450px`,
+  width,
+  height,
   margin,
   keyIsDate,
   dataSource = [],
@@ -31,20 +32,6 @@ const DynamicLineChart = ({
   enableArea = false,
   enablePoints = true,
   pointColor,
-  yMarker = false,
-  yMarkerValue = 0,
-  yMarkerOrientation = "vertical",
-  yMarkerColor,
-  yMarkerLabel = "",
-  yMarkerWidth = 2,
-  xMarker = false,
-  xMarkerValue = 0,
-  xMarkerOrientation = "vertical",
-  xMarkerColor,
-  xMarkerLabel = "",
-  xMarkerWidth = 2,
-  yMarkerLabelColor,
-  xMarkerLabelColor,
   sort = "",
   tickRotation = 0,
   bottomAxis = true,
@@ -54,9 +41,13 @@ const DynamicLineChart = ({
   customColors = [],
   constantsAxises = [],
   yScaleMax,
-  widgetID,
-  useCustomTooltips
+  legend,
+  enableGradient
 }) => {
+  if (legend) {
+    Object.keys(legend).forEach(key => legend[key] === undefined && delete legend[key])
+  }
+  
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
 
@@ -131,7 +122,41 @@ const DynamicLineChart = ({
   );
 
   isNotEmpty = matches.includes(true);
+
+  const customProps = {}
+
   if (!isNotEmpty) return <EmptyWidget />;
+
+  if (enableGradient) {
+    customProps.defs = [
+      linearGradientDef('gradientA', [
+          { offset: 0, color: 'inherit' },
+          { offset: 100, color: 'inherit', opacity: 0 },
+      ]),
+    ]
+
+    customProps.fill= [{ match: '*', id: 'gradientA' }]
+  }
+
+  if (legend) {
+    customProps.legends = [
+      {
+        anchor: 'top-right',
+        direction: 'column',
+        translateX: 0,
+        translateY: 0,
+        itemsSpacing: 2,
+        itemWidth: 60,
+        itemHeight: 14,
+        itemDirection: "left-to-right",
+        itemOpacity: 1,
+        symbolSize: 14,
+        symbolShape: "circle",
+        ...legend
+      }
+    ]
+  }
+
   return (
     <>
       <div
@@ -182,19 +207,17 @@ const DynamicLineChart = ({
           useMesh={true}
           enableArea={enableArea}
           enablePoints={enablePoints}
-          tooltip={datum => {
-            console.log("====================================");
-            console.log(datum);
-            console.log("====================================");
-            return (
-              <Tooltip
-                keyIsDate={keyIsDate}
-                datum={datum}
-                enable={useCustomTooltips}
-                widgetID={widgetID}
-              />
-            );
-          }}
+          // tooltip={datum => {
+          //   console.log("====================================");
+          //   console.log(datum);
+          //   console.log("====================================");
+          //   return (
+          //     <Tooltip
+          //       keyIsDate={keyIsDate}
+          //       datum={datum}
+          //     />
+          //   );
+          // }}
           pointSize={pointSize}
           curve={curve}
           colors={
@@ -213,32 +236,8 @@ const DynamicLineChart = ({
               ? pointColor.colorPickedHex
               : { from: "color", modifiers: [] }
           }
-          // legends={[
-          //   {
-          //     anchor: "bottom-right",
-          //     direction: "column",
-          //     justify: false,
-          //     translateX: 130,
-          //     translateY: 0,
-          //     itemsSpacing: 0,
-          //     itemDirection: "left-to-right",
-          //     itemWidth: 120,
-          //     itemHeight: 20,
-          //     itemOpacity: 0.75,
-          //     symbolSize: 12,
-          //     symbolShape: "circle",
-          //     symbolBorderColor: "rgba(0, 0, 0, .5)",
-          //     effects: [
-          //       {
-          //         on: "hover",
-          //         style: {
-          //           itemBackground: "rgba(0, 0, 0, .03)",
-          //           itemOpacity: 1
-          //         }
-          //       }
-          //     ]
-          //   }
-          // ]}
+
+          {...customProps}
         />
       </div>
     </>
