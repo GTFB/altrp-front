@@ -3,7 +3,6 @@
     "@babel/env",
     "@babel/preset-react"
   ],
-  "rootMode": "upward",
   "plugins": [
     "@babel/plugin-syntax-jsx",
     "@babel/plugin-transform-runtime",
