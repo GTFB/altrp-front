@@ -8,8 +8,8 @@ const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 module.exports ={
   mode: 'production',
   entry: {
-    'front-app':"./front-app/src/index.js",
-    'h-altrp': "./front-app/src/h-altrp",
+    'front-app':path.join(__dirname, "./front-app/src/index.js"),
+    'h-altrp': path.join(__dirname, "./front-app/src/h-altrp"),
   },
   devtool: 'source-map',
   module: {

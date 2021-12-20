@@ -5,7 +5,7 @@ const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
 
 
 module.exports = {
-  entry: "./editor/src/index.js",
+  entry: path.join(__dirname, "./editor/src/index.js"),
   mode: "development",
   module: {
     rules: [

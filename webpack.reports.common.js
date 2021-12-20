@@ -5,7 +5,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./reports-new/src/index.js",
+  entry: path.join(__dirname, "./reports-new/src/index.js"),
   mode: "development",
   module: {
     rules: [

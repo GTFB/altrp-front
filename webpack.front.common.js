@@ -11,8 +11,8 @@ module.exports = {
   //     "./resources/modules/front-app/src/js/sw/sw.js",
   // ],
   entry: {
-    "front-app": "./front-app/src/index.js",
-    "h-altrp": "./front-app/src/h-altrp.js"
+    "front-app": path.join(__dirname, "./front-app/src/index.js"),
+    "h-altrp": path.join(__dirname, "./front-app/src/h-altrp.js")
   },
 
   // ],

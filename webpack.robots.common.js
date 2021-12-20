@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-  entry: "./robots/src/index.js",
+  entry: path.join(__dirname, "./robots/src/index.js"),
   mode: "development",
   module: {
     rules: [

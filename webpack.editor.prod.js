@@ -6,7 +6,7 @@ const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 
 // module.exports = merge(common, {
 module.exports =  {
-  entry: "./editor/src/index.js",
+  entry: path.join(__dirname, "./editor/src/index.js"),
   mode: 'production',
   devtool: 'source-map',
   module: {
@@ -86,8 +86,8 @@ module.exports =  {
       patterns: [
 
           {
-            from: 'editor/src/skins',
-            to: 'skins'
+            from: path.join(__dirname, 'editor/src/skins'),
+            to: '../../skins'
           },
 
     ]})

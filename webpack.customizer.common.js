@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-  entry: "./customizer/src/index.js",
+  entry: path.join(__dirname, "./customizer/src/index.js"),
   mode: "development",
   module: {
     rules: [
@@ -12,7 +12,8 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
         options: {
-          presets: ["@babel/env"]
+          presets: ["@babel/env", "@babel/preset-react"],
+          plugins: ["@babel/plugin-syntax-jsx", "inline-react-svg"]
         }
       },
       {

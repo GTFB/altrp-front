@@ -23,7 +23,7 @@ const excludes = [
   '!../out/**',
   '!../../.git/**',
   '!../../.idea/**',
-  './node_modules/**',
+  '!./node_modules/**',
   '!../../routes/AltrpRoutes.php',
   '!../../routes/AltrpApiRoutes.php',
   '!../../routes/AltrpCustomRoutes.php',

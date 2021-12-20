@@ -15,16 +15,13 @@ module.exports = {
     filename: "admin.js"
   },
 
-  entry: "./admin/src/index.js",
+  entry: path.join(__dirname, "./admin/src/index.js"),
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
-        options: {
-          presets: ["@babel/env"]
-        }
       },
       // {
       //   test: /\.(js|jsx)$/,
